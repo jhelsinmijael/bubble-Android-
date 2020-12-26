@@ -32,9 +32,9 @@
 
     <application>
 
-        <service android:name="com.txusballesteros.bubbles.BubblesService"
+        <!--service android:name="com.txusballesteros.bubbles.BaseBubblesService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false" /-->
 
     </application>
 </manifest>

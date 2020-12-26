@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/*
  * Copyright Txus Ballesteros 2015 (@txusballesteros)
  *
  * This file is part of some open source application.
@@ -22,27 +21,33 @@
  * under the License.
  *
  * Contact: Txus Ballesteros <txus.ballesteros@gmail.com>
--->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.txusballesteros.bubbles.app" >
+ */
+package com.txusballesteros.bubbles
 
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+import android.content.Intent
+import android.os.*
+import java.util.*
 
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+/**
+ * Servicio vinculado
+ * */
+open class IBubblesService : BaseBubblesService() {
+    private val binder = BubblesServiceBinder()
 
-        <service android:name=".MyIBubbleService"/>
-        <service android:name=".MyBubbleService" />
+    override fun onBind(intent: Intent?): IBinder? {
+        return binder
+    }
 
-    </application>
-</manifest>
+    override fun onUnbind(intent: Intent): Boolean {
+        for (bubble in bubbles) {
+            recycleBubble(bubble)
+        }
+        bubbles.clear()
+        return super.onUnbind(intent)
+    }
+
+    internal inner class BubblesServiceBinder : Binder() {
+        val service: IBubblesService
+            get() = this@IBubblesService
+    }
+}

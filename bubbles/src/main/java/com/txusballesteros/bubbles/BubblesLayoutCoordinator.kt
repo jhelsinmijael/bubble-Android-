@@ -30,7 +30,7 @@ import android.view.WindowManager
 internal class BubblesLayoutCoordinator private constructor() {
     private var trashView: BubbleTrashLayout? = null
     private var windowManager: WindowManager? = null
-    private var bubblesService: BubblesService? = null
+    private var bubblesService: BaseBubblesService? = null
     fun notifyBubblePositionChanged(bubble: BubbleLayout, x: Int, y: Int) {
         if (trashView != null) {
             trashView?.visibility = View.VISIBLE
@@ -89,7 +89,7 @@ internal class BubblesLayoutCoordinator private constructor() {
         }
     }
 
-    class Builder(service: BubblesService?) {
+    class Builder(service: BaseBubblesService?) {
         private val layoutCoordinator: BubblesLayoutCoordinator? = instance
         fun setTrashView(trashView: BubbleTrashLayout?): Builder {
             layoutCoordinator?.trashView = trashView

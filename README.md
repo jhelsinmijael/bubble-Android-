@@ -5,8 +5,12 @@ Bubbles for Android is an Android library to provide chat heads capabilities on 
 
 ![Logo](assets/bubbles_demo.gif)
 
-## Latest Version
-
+## Usage
+```gradle
+dependencies {
+  implementation 'com.github.jhelsinmijael:bubble-Android-:latestVersion'
+}
+```
 
 ### Adding your first Bubble
 
@@ -30,31 +34,87 @@ Compose your Bubble layout, for example using a Xml layout file. Remember that t
 </com.txusballesteros.bubbles.BubbleLayout>
 ```
 
+### For IBinder Service
+
+Register IBubblesServices on Manifest
+```xml
+<manifest>
+    <application>
+        <service android:name=".IBubbleService"/>
+    </application>
+</manifest>
+```
+
 Create your BubblesManager instance.
 
-```java
-private BubblesManager bubblesManager;
+```kotlin
+class MyActivity: AppCompatActivity{
 
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-     bubblesManager = new BubblesManager.Builder(this)
-                                        .build();
-     bubblesManager.initialize();
-    ...
-}
+    private var bubblesManager: BubblesManager
 
-@Override
-protected void onDestroy() {
-    bubblesManager.recycle();
-    ...
+    @Override
+    protected fun onCreate(savedInstanceState: Bundle?) {
+        bubblesManager = BubblesManager.Builder(this).build()
+        bubblesManager.initialize()
+        //...
+    }
+
+    @Override
+    protected fun onDestroy() {
+        bubblesManager.recycle()
+        //...
+    }
 }
 ```
 
+If use subclass of IBubbleService
+
+```xml
+<manifest>
+    <application>
+        <service android:name=".MyIBubbleService"/>
+    </application>
+</manifest>
+```
+
+Indicate subclass
+
+```kotlin
+bubblesManager.initialize(MyIBubbleService::class.java)
+```
+
+### For normal Service
+
+```kotlin
+class MyBubbleService: BubblesService() {
+
+    private var bubblesManager: BubblesManager? = null
+
+    override fun onCreate() {
+        super.onCreate()
+
+        bubblesManager = BubblesManager.Builder(this).build()
+
+        val bubbleView = LayoutInflater.from(this).inflate(R.layout.bubble_layout, null) as BubbleLayout
+        bubblesManager?.addBubble(bubbleView, 0, 0)
+        //...
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bubblesManager?.recycle()
+        //...
+    }
+
+}
+```
+
+### For all Service
+
 Attach your Bubble to the window.
 
-```java
-BubbleLayout bubbleView = (BubbleLayout)LayoutInflater
-                                    .from(MainActivity.this).inflate(R.layout.bubble_layout, null);
+```kotlin
+val bubbleView: BubbleLayout = LayoutInflater.from(MainActivity.this).inflate(R.layout.bubble_layout, null) as? BubbleLayout
 bubblesManager.addBubble(bubbleView, 60, 20);
 ```
 
@@ -77,17 +137,10 @@ Define your trash layout Xml.
 
 Configure the trash layout with your BubblesManager builder.
 
-```java
-private BubblesManager bubblesManager;
-
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-     bubblesManager = new BubblesManager.Builder(this)
-                                        .setTrashLayout(R.layout.bubble_trash_layout)
-                                        .build();
-     bubblesManager.initialize();
-    ...
-}
+```kotlin
+bubblesManager = BubblesManager.Builder(this)
+                .setTrashLayout(R.layout.bubble_trash_layout)
+                .build()
 ```
 
 ## License

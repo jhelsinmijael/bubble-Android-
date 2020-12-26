@@ -24,24 +24,25 @@
  */
 package com.txusballesteros.bubbles.app
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.txusballesteros.bubbles.BubbleLayout
 import com.txusballesteros.bubbles.BubbleLayout.OnBubbleClickListener
 import com.txusballesteros.bubbles.BubbleLayout.OnBubbleRemoveListener
-import com.txusballesteros.bubbles.BubblesManager
+import com.txusballesteros.bubbles.IBubblesManager
 import com.txusballesteros.bubbles.OnInitializedCallback
 
 class MainActivity : AppCompatActivity() {
-    private var bubblesManager: BubblesManager? = null
+    private var bubblesManager: IBubblesManager? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        initializeBubblesManager()
-        findViewById<View>(R.id.add).setOnClickListener { addNewBubble() }
+        startService(Intent(this, MyBubbleService::class.java))
+        //initializeBubblesManager()
+        //findViewById<View>(R.id.add).setOnClickListener { addNewBubble() }
     }
 
     private fun addNewBubble() {
@@ -60,7 +61,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeBubblesManager() {
-        bubblesManager = BubblesManager.Builder(this)
+        bubblesManager = IBubblesManager.Builder(this)
                 .setTrashLayout(R.layout.bubble_trash_layout)
                 .setInitializationCallback(object : OnInitializedCallback {
                     override fun onInitialized() {
@@ -68,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 })
                 .build()
-        bubblesManager?.initialize()
+        bubblesManager?.initialize(MyIBubbleService::class.java)
     }
 
     override fun onDestroy() {

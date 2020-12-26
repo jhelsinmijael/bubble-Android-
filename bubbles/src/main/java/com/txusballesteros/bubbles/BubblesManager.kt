@@ -24,66 +24,44 @@
  */
 package com.txusballesteros.bubbles
 
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
-import android.os.IBinder
-import com.txusballesteros.bubbles.BubblesService.BubblesServiceBinder
+import androidx.annotation.LayoutRes
+import java.lang.ref.WeakReference
 
-class BubblesManager private constructor(private val context: Context) {
-    private var bounded = false
-    private var bubblesService: BubblesService? = null
+class BubblesManager private constructor(service: BubblesService) {
+
+    private val bubblesService = WeakReference(service)
+
+    /**
+     * Recurso de diseño para la vista de eliminar
+     * */
+    @LayoutRes
     private var trashLayoutResourceId = 0
-    private var listener: OnInitializedCallback? = null
-    private val bubbleServiceConnection: ServiceConnection = object : ServiceConnection {
-        override fun onServiceConnected(name: ComponentName, service: IBinder) {
-            val binder = service as BubblesServiceBinder
-            bubblesService = binder.service
-            configureBubblesService()
-            bounded = true
-            if (listener != null) {
-                listener?.onInitialized()
-            }
-        }
+    /**
+     * Listener para un servicio vinculado, notifica cuando el
+     * @see ServiceConnection.onServiceConnected se ha llamado
+     * */
 
-        override fun onServiceDisconnected(name: ComponentName) {
-            bounded = false
-        }
-    }
 
     private fun configureBubblesService() {
-        bubblesService?.addTrash(trashLayoutResourceId)
-    }
-
-    fun initialize() {
-        context.bindService(Intent(context, BubblesService::class.java),
-                bubbleServiceConnection,
-                Context.BIND_AUTO_CREATE)
+        bubblesService.get()?.addTrash(trashLayoutResourceId)
     }
 
     fun recycle() {
-        context.unbindService(bubbleServiceConnection)
+       bubblesService.clear()
     }
 
     fun addBubble(bubble: BubbleLayout, x: Int, y: Int) {
-        if (bounded) {
-            bubblesService?.addBubble(bubble, x, y)
-        }
+        bubblesService.get()?.addBubble(bubble, x, y)
     }
 
     fun removeBubble(bubble: BubbleLayout?) {
-        if (bounded && bubble!=null) {
-            bubblesService?.removeBubble(bubble)
+        if (bubble!=null) {
+            bubblesService.get()?.removeBubble(bubble)
         }
     }
 
-    class Builder(context: Context) {
-        private val bubblesManager: BubblesManager? = getInstance(context)
-        fun setInitializationCallback(listener: OnInitializedCallback?): Builder {
-            bubblesManager?.listener = listener
-            return this
-        }
+    class Builder(service: BubblesService) {
+        private val bubblesManager: BubblesManager? = getInstance(service)
 
         fun setTrashLayout(trashLayoutResourceId: Int): Builder {
             bubblesManager?.trashLayoutResourceId = trashLayoutResourceId
@@ -91,6 +69,7 @@ class BubblesManager private constructor(private val context: Context) {
         }
 
         fun build(): BubblesManager? {
+            bubblesManager?.configureBubblesService()
             return bubblesManager
         }
 
@@ -98,9 +77,9 @@ class BubblesManager private constructor(private val context: Context) {
 
     companion object {
         private var INSTANCE: BubblesManager? = null
-        private fun getInstance(context: Context): BubblesManager? {
+        private fun getInstance(service: BubblesService): BubblesManager? {
             if (INSTANCE == null) {
-                INSTANCE = BubblesManager(context)
+                INSTANCE = BubblesManager(service)
             }
             return INSTANCE
         }
