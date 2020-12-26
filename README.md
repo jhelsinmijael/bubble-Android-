@@ -1,3 +1,6 @@
+[![](https://jitpack.io/v/jhelsinmijael/bubble-Android-.svg)](https://jitpack.io/#jhelsinmijael/bubble-Android-)
+
+
 Bubbles for Android
 =====================
 
@@ -34,9 +37,9 @@ Compose your Bubble layout, for example using a Xml layout file. Remember that t
 </com.txusballesteros.bubbles.BubbleLayout>
 ```
 
-### For IBinder Service
+#### For IBinder Service
 
-Register IBubblesServices on Manifest
+Register IBubblesService on Manifest
 ```xml
 <manifest>
     <application>
@@ -52,20 +55,22 @@ class MyActivity: AppCompatActivity{
 
     private var bubblesManager: BubblesManager
 
-    @Override
-    protected fun onCreate(savedInstanceState: Bundle?) {
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
         bubblesManager = BubblesManager.Builder(this).build()
         bubblesManager.initialize()
         //...
     }
 
-    @Override
-    protected fun onDestroy() {
+    
+    override fun onDestroy() {
         bubblesManager.recycle()
         //...
     }
 }
 ```
+
+##### Or
 
 If use subclass of IBubbleService
 
@@ -83,7 +88,7 @@ Indicate subclass
 bubblesManager.initialize(MyIBubbleService::class.java)
 ```
 
-### For normal Service
+#### For normal Service
 
 ```kotlin
 class MyBubbleService: BubblesService() {
@@ -109,7 +114,7 @@ class MyBubbleService: BubblesService() {
 }
 ```
 
-### For all Service
+### For all Services
 
 Attach your Bubble to the window.
 
