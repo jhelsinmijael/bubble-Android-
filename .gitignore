@@ -50,8 +50,8 @@ Thumbs.db
  
 # gradle directory
 .gradle
-gradlew
-gradlew.bat
+#gradlew
+#gradlew.bat
 #gradle/
 build/
 captures/
