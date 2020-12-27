@@ -53,18 +53,18 @@ Create your BubblesManager instance.
 ```kotlin
 class MyActivity: AppCompatActivity{
 
-    private var bubblesManager: BubblesManager
+    private var iBubblesManager: IBubblesManager
 
     
     override fun onCreate(savedInstanceState: Bundle?) {
-        bubblesManager = BubblesManager.Builder(this).build()
-        bubblesManager.initialize()
+        iBubblesManager = IBubblesManager.Builder(this).build()
+        iBubblesManager.initialize()
         //...
     }
 
     
     override fun onDestroy() {
-        bubblesManager.recycle()
+        iBubblesManager.recycle()
         //...
     }
 }
