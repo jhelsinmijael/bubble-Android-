@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        startService(Intent(this, MyBubbleService::class.java))
+
         //initializeBubblesManager()
         //findViewById<View>(R.id.add).setOnClickListener { addNewBubble() }
     }
@@ -72,8 +72,14 @@ class MainActivity : AppCompatActivity() {
         bubblesManager?.initialize(MyIBubbleService::class.java)
     }
 
+
+    override fun onResume() {
+        super.onResume()
+        stopService(Intent(this, MyBubbleService::class.java))
+    }
     override fun onDestroy() {
         super.onDestroy()
         bubblesManager?.recycle()
+        startService(Intent(this, MyBubbleService::class.java))
     }
 }

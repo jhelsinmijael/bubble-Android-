@@ -24,6 +24,7 @@ class MyBubbleService: BubblesService() {
 
     override fun onDestroy() {
         super.onDestroy()
+        Log.d(MyBubbleService::class.java.simpleName, "onDestroy")
         bubblesManager?.recycle()
     }
 

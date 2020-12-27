@@ -24,6 +24,6 @@
  */
 package com.txusballesteros.bubbles
 
-interface OnInitializedCallback {
+fun interface OnInitializedCallback {
     fun onInitialized()
 }

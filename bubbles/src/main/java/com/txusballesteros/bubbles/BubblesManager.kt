@@ -24,6 +24,7 @@
  */
 package com.txusballesteros.bubbles
 
+import android.util.Log
 import androidx.annotation.LayoutRes
 import java.lang.ref.WeakReference
 
@@ -47,10 +48,12 @@ class BubblesManager private constructor(service: BubblesService) {
     }
 
     fun recycle() {
-       bubblesService.clear()
+        bubblesService.clear()
+        INSTANCE = null
     }
 
     fun addBubble(bubble: BubbleLayout, x: Int, y: Int) {
+        Log.d(LOG_TAG, "addBubble=${bubblesService.get()}")
         bubblesService.get()?.addBubble(bubble, x, y)
     }
 
@@ -76,6 +79,7 @@ class BubblesManager private constructor(service: BubblesService) {
     }
 
     companion object {
+        private val LOG_TAG = BubblesManager::class.java.simpleName
         private var INSTANCE: BubblesManager? = null
         private fun getInstance(service: BubblesService): BubblesManager? {
             if (INSTANCE == null) {

@@ -31,6 +31,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -72,6 +73,7 @@ open class BaseBubblesService : Service() {
     }
 
     fun addBubble(bubble: BubbleLayout, x: Int, y: Int) {
+        Log.d(LOG_TAG, "addBubble=${bubble}")
         val layoutParams = buildLayoutParamsForBubble(x, y)
         bubble.windowManager = getWindowManager()
         bubble.viewParams = layoutParams
@@ -100,7 +102,11 @@ open class BaseBubblesService : Service() {
     }
 
     private fun addViewToWindow(view: BubbleBaseLayout?) {
-        Handler(Looper.getMainLooper()).post { getWindowManager()?.addView(view, view?.viewParams) }
+        Log.d(LOG_TAG, "addViewToWindow=${view}")
+        Handler(Looper.getMainLooper()).post {
+            Log.d(LOG_TAG, "addViewToWindow=${getWindowManager()}")
+            getWindowManager()?.addView(view, view?.viewParams)
+        }
     }
 
     var params: WindowManager.LayoutParams? = null
@@ -154,4 +160,9 @@ open class BaseBubblesService : Service() {
         recycleBubble(bubble)
     }
 
+    companion object{
+
+        val LOG_TAG = BaseBubblesService::class.java.simpleName
+
+    }
 }

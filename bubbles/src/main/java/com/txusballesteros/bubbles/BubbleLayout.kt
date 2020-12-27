@@ -168,11 +168,11 @@ class BubbleLayout : BubbleBaseLayout {
         mWidth = size.x - getWidth()
     }
 
-    interface OnBubbleRemoveListener {
+    fun interface OnBubbleRemoveListener {
         fun onBubbleRemoved(bubble: BubbleLayout?)
     }
 
-    interface OnBubbleClickListener {
+    fun interface OnBubbleClickListener {
         fun onBubbleClick(bubble: BubbleLayout?)
     }
 
