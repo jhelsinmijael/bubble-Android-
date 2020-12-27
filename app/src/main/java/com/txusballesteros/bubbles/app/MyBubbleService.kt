@@ -19,7 +19,7 @@ class MyBubbleService: BubblesService() {
                 .build()
 
         val bubbleView = LayoutInflater.from(this).inflate(R.layout.bubble_layout, null) as BubbleLayout
-        bubblesManager?.addBubble(bubbleView, 0, 0)
+        bubblesManager?.addBubble(bubbleView, 0, -2)
     }
 
     override fun onDestroy() {

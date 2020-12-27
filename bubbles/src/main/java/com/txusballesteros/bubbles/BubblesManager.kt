@@ -52,6 +52,12 @@ class BubblesManager private constructor(service: BubblesService) {
         INSTANCE = null
     }
 
+    /**
+     * y options
+     * -1 top
+     * -2 center-vetical
+     * -3 bottom
+     * */
     fun addBubble(bubble: BubbleLayout, x: Int, y: Int) {
         Log.d(LOG_TAG, "addBubble=${bubblesService.get()}")
         bubblesService.get()?.addBubble(bubble, x, y)

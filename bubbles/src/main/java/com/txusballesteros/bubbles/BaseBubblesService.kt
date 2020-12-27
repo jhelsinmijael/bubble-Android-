@@ -31,6 +31,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -72,9 +73,23 @@ open class BaseBubblesService : Service() {
         return windowManager
     }
 
+    /**
+     * y options
+     * -1 top
+     * -2 center-vetical
+     * -3 bottom
+     * */
     fun addBubble(bubble: BubbleLayout, x: Int, y: Int) {
         Log.d(LOG_TAG, "addBubble=${bubble}")
-        val layoutParams = buildLayoutParamsForBubble(x, y)
+        val displayMetrics = DisplayMetrics()
+        display?.getMetrics(displayMetrics)
+        val finalY = when(y){
+            -1 -> 0
+            -2 -> (displayMetrics.heightPixels)/2 - 20 //20 hard
+            -3 -> (displayMetrics.heightPixels) - 150//hard
+            else -> 0
+        }
+        val layoutParams = buildLayoutParamsForBubble(x, finalY)
         bubble.windowManager = getWindowManager()
         bubble.viewParams = layoutParams
         bubble.layoutCoordinator = layoutCoordinator
