@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         })
         bubbleView.setOnBubbleClickListener(object : OnBubbleClickListener {
             override fun onBubbleClick(bubble: BubbleLayout?) {
-                Toast.makeText(applicationContext, "Clicked !",
+                Toast.makeText(applicationContext, "Clicked !1",
                         Toast.LENGTH_SHORT).show()
             }
         })
