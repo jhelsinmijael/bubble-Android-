@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.4.30-M1'
+    ext.kotlin_version = '1.4.21'
     repositories {
         maven {
             url "https://oss.sonatype.org/content/repositories/snapshots/"
@@ -22,7 +22,7 @@ buildscript {
 allprojects {
     allprojects {
         ext {
-            libraryVersion = '1.2.1'
+            libraryVersion = '1.2.2'
             mavenGroupId = 'com.txusballesteros'
             siteUrl = 'https://github.com/txusballesteros/bubbles-for-android'
             gitUrl = 'https://github.com/txusballesteros/bubbles-for-android.git'

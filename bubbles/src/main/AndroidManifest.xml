@@ -30,11 +30,11 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
-    <application>
+    <!--application>
 
-        <!--service android:name="com.txusballesteros.bubbles.BaseBubblesService"
+        <service android:name="com.txusballesteros.bubbles.BaseBubblesService"
             android:enabled="true"
-            android:exported="false" /-->
+            android:exported="false" />
 
-    </application>
+    </application-->
 </manifest>
