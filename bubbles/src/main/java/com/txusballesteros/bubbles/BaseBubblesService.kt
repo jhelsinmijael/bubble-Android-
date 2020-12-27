@@ -37,11 +37,11 @@ import android.view.View
 import android.view.WindowManager
 import java.util.*
 
-/**
+/*/**
  * Clase base para los servicios expuestos
  * @see IBubblesService
  * @see BubblesService
- * */
+ * */*/
 open class BaseBubblesService : Service() {
     protected val bubbles: MutableList<BubbleLayout> = ArrayList()
     private var bubblesTrash: BubbleTrashLayout? = null
