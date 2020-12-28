@@ -82,7 +82,7 @@ open class BaseBubblesService : Service() {
     fun addBubble(bubble: BubbleLayout, x: Int, y: Int) {
         Log.d(LOG_TAG, "addBubble=${bubble}")
         val displayMetrics = DisplayMetrics()
-        display?.getMetrics(displayMetrics)
+        getWindowManager()?.defaultDisplay?.getMetrics(displayMetrics)
         val finalY = when(y){
             -1 -> 0
             -2 -> (displayMetrics.heightPixels)/2 - 20 //20 hard
